@@ -4,7 +4,7 @@ console.log("Hello world"); // small task
 import fs from "fs";
 import { square } from "./compute.js";
 
-// blocking task/time consuming task
+// blocking task/time consuming task (Non-blocking operation)
 fs.readFile("data/data.txt", "utf-8", (error, data) => {
   if (error) {
     console.log(error);
