@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "content": "This is a comment on Post 1",
+    "postId": 1
+  },
+  {
+    "id": 2,
+    "content": "This is a comment on Post 2",
+    "postId": 2
+  },
+  {
+    "id": 3,
+    "content": "This is a comment on Post 3",
+    "postId": 3
+  },
+  {
+    "id": 4,
+    "content": "This is a comment on Post 4",
+    "postId": 4
+  },
+  {
+    "id": 5,
+    "content": "This is a comment on Post 5",
+    "postId": 5
+  }
+]
