@@ -1,20 +1,30 @@
 {
-  "name": "api",
+  "name": "mern-20260719-api",
   "version": "1.0.0",
-  "description": "Ecommerce API",
-  "homepage": "https://github.com/aryzalab/mern-20260719-api#readme",
-  "bugs": {
-    "url": "https://github.com/aryzalab/mern-20260719-api/issues"
+  "description": "- Node.js is a JS runtime environment. - Runtime enviroment: A program that runs another program. - With the help of node.js, we can run JS in local machine. - Used to build: API, real time apps, micro-services, server - Built on C++ - Powered by Google Chrome V8 engine",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/aryzalab/mern-20260719-api.git"
   },
+  "keywords": [],
+  "author": "",
   "license": "ISC",
-  "author": "Sam",
   "type": "module",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "bugs": {
+    "url": "https://github.com/aryzalab/mern-20260719-api/issues"
+  },
+  "homepage": "https://github.com/aryzalab/mern-20260719-api#readme",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
   }
 }

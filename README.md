@@ -31,3 +31,21 @@
   - Async/Await
 
 # Express.js
+
+- It is a Node.js API/Web framework.
+- Used to build API
+- Minimalist, fast, unopinionated framework
+- It simplifies the HTTP module of node.js
+
+## HTTP Methods
+
+- GET
+- POST
+- PUT
+- DELETE
+- PATCH
+
+## REST API
+
+JSON.stringify: JS Object => JSON
+JSON.parse: JSON => JS Object
