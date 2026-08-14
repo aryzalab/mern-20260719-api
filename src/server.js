@@ -3,8 +3,11 @@ import fs from "fs/promises";
 
 import config from "./config/config.js";
 import usersRoute from "./routes/user.routes.js";
+import connectDB from "./config/database.js";
 
 const app = express();
+
+connectDB();
 
 app.get("/", (request, response) => {
   response.send("Home page");
