@@ -3,6 +3,7 @@ import fs from "fs/promises";
 
 import config from "./config/config.js";
 import usersRoute from "./routes/user.routes.js";
+import productsRoute from "./routes/product.routes.js";
 import connectDB from "./config/database.js";
 
 const app = express();
@@ -21,7 +22,8 @@ app.get("/contact", (req, res) => {
   res.send("<h1>Welcome to Contact page</h1>");
 });
 
-app.use("/", usersRoute);
+app.use("/api/users", usersRoute);
+app.use("/api/products", productsRoute);
 
 app.listen(config.port, () => {
   console.log(`Server running at port ${config.port}...`);

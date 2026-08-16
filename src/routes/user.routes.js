@@ -3,9 +3,13 @@ import userController from "../controllers/user.controllers.js";
 
 const router = express.Router();
 
-router.get("/users", userController.getUsers);
+router.get("/", userController.getUsers);
 
 // Dynamic route params
-router.get("/users/:userId", userController.getUserById);
+router.get("/:userId", userController.getUserById);
+
+router.post("/", userController.createUser);
+
+router.delete("/:userId", userController.deleteUser);
 
 export default router;

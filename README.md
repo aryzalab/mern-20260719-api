@@ -137,3 +137,11 @@ c. sort: db.users.find().sort({name:-1}) | ASC (1), DESC (-1)
 - Validate schema
 - Create models (usable form of schema) using schema
 - Relationships
+
+========================
+
+sentence case
+camelCase
+PascalCase
+kebab-case
+snake_case
