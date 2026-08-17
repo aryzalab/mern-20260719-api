@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
     required: [true, "Email address is required."],
     minLength: 5,
     maxLength: 100,
-    unique: true,
+    unique: [true, "Email already exists."],
     lowercase: true,
     validate: {
       validator: (value) => {
@@ -25,8 +25,6 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    minLength: 6,
-    maxLength: 50,
     required: [true, "Password is required."],
   },
   roles: {
@@ -39,7 +37,7 @@ const userSchema = new mongoose.Schema({
     required: [true, "Phone number is required."],
     maxLength: 15,
     minLength: 6,
-    unique: true,
+    unique: [true, "Phone number already exists."],
   },
   createdAt: {
     type: Date,

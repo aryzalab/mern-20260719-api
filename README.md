@@ -124,7 +124,7 @@ Update product: PUT /products/:id
 3. $gt/$gte: db.users.find({age:{$gte:20}})
 4. $lt/$lte: db.users.find({age:{$lte:20}})
 5. $and: db.users.find({$and:[{name:"Mina"}, {age:30}]})
-6. $and: db.users.find({$or:[{name:"Mina"}, {age:30}]})
+6. $or: db.users.find({$or:[{name:"Mina"}, {age:30}]})
 
 a. limit: db.users.find().limit(3)
 b. skip: db.users.find().skip(1)
@@ -138,10 +138,52 @@ c. sort: db.users.find().sort({name:-1}) | ASC (1), DESC (-1)
 - Create models (usable form of schema) using schema
 - Relationships
 
-========================
+## Naming formats/cases
 
 sentence case
 camelCase
 PascalCase
 kebab-case
 snake_case
+
+## HTTP Methods
+
+1. GET - Read/Fetch
+2. POST - Create/Add
+3. PUT - Update
+4. DELETE - Delete
+5. PATCH - Partial update
+
+## Cryptography
+
+### Encryption
+
+- Converting readable text into cipher text (unreadable format)
+- hello -> a8dsfuasnfua-s0dfnuadf8unasdf-0ansdf09
+
+### Decryption
+
+- Converting cipher text into readble format
+- a8dsfuasnfua-s0dfnuadf8unasdf-0ansdf09 -> hello
+
+### Hashing
+
+- One way encryption
+- Convert the readable text to cipher text but not back to readable
+- hello -> asdufhasdofhasdpifhasdf
+- Hashing always returns same cipher of a given input
+
+### Salt
+
+- Adding random characters in the hash
+- hello -> assdufhasfdofh3asdpifh3xasd4f3
+- hello -> asfdufhasdgofhasdgpifhasdfhfh
+
+=======================================
+
+- Authentication/Authorization
+- Session, cookie, localstorage
+- JWT Token
+- HTTP status codes
+- Postman
+- data validation with zod
