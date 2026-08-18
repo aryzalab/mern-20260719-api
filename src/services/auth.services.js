@@ -20,19 +20,35 @@ const login = async (input) => {
     };
   }
 
-  return user;
+  return {
+    _id: user._id,
+    name: user.name,
+    address: user.address,
+    phone: user.phone,
+    email: user.email,
+    roles: user.roles,
+  };
 };
 
 const register = async (input) => {
   const hashedPassword = await bcrypt.hash(input.password, 10);
 
-  return await User.create({
+  const user = await User.create({
     name: input.name,
     email: input.email,
     password: hashedPassword,
     address: input.address,
     phone: input.phone,
   });
+
+  return {
+    _id: user._id,
+    name: user.name,
+    address: user.address,
+    phone: user.phone,
+    email: user.email,
+    roles: user.roles,
+  };
 };
 
 export default { login, register };

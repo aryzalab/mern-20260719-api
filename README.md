@@ -179,11 +179,46 @@ snake_case
 - hello -> assdufhasfdofh3asdpifh3xasd4f3
 - hello -> asfdufhasdgofhasdgpifhasdfhfh
 
+## Authentication/Authorization
+
+- Authentication: Who you are? Logged in user
+- Authorization: What you can do? User role
+
+## JSON Web Token (JWT)
+
+- Self verified token
+- Tamper proof
+- Used for both authentication and authorization
+- Structure: Header, Payload, Signature
+
+## Auth process
+
+1. Login/Register success
+2. Generate token (JWT)
+3. Store token: Cookie, Session, Local Storage
+4. Append the token (JWT) in every request
+5. Verify the token and authenticate/authorize the user (Middleware)
+
+## Storage
+
+1. Cookie storage
+- Size: 4KB
+- Storage: Browser & Server
+- Expiry: Cookie expiry
+
+2. Session storage
+- Size: 5MB
+- Storage: Browser
+- Expiry: On tab close
+
+3. Local storage
+- Size: 5MB
+- Storage: Browser
+- Expiry: Never (Permanent)
+
 =======================================
 
-- Authentication/Authorization
-- Session, cookie, localstorage
-- JWT Token
 - HTTP status codes
+- Middleware
 - Postman
 - data validation with zod
