@@ -6,11 +6,14 @@ import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import productRoutes from "./routes/product.routes.js";
 import connectDB from "./config/database.js";
+import logger from "./middlewares/logger.js";
 
 const app = express();
 
 // Use this instead of bodyparser.json()
 app.use(express.json());
+
+app.use(logger);
 
 connectDB();
 

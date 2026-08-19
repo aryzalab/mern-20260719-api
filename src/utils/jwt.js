@@ -9,4 +9,10 @@ const generateToken = (payload) => {
   return token;
 };
 
-export default { generateToken };
+const verifyToken = (token) => {
+  var decoded = jwt.verify(token, config.jwtSecret);
+
+  return decoded;
+};
+
+export default { generateToken, verifyToken };

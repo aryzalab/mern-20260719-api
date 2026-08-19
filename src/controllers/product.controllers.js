@@ -10,4 +10,14 @@ const createProduct = async (req, res) => {
   }
 };
 
-export default { createProduct };
+const getProducts = async (req, res) => {
+  try {
+    const products = await productServices.getProducts();
+
+    res.json(products);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export default { createProduct, getProducts };

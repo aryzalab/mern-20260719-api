@@ -13,6 +13,7 @@ const login = async (req, res) => {
 
     res.json(data);
   } catch (error) {
+    console.log(error);
     res.status(400).json({ message: error.message });
   }
 };
@@ -33,4 +34,10 @@ const register = async (req, res) => {
   }
 };
 
-export default { login, register };
+const logout = (req, res) => {
+  res.clearCookie("authToken");
+
+  res.json({ message: "Logout succcessful" });
+};
+
+export default { login, register, logout };

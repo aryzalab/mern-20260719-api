@@ -1,5 +1,9 @@
 import Product from "../models/Product.js";
 
+const getProducts = async () => {
+  return await Product.find();
+};
+
 const createProduct = async () => {
   return await Product.create({
     name: "Iph",
@@ -10,4 +14,4 @@ const createProduct = async () => {
   });
 };
 
-export default { createProduct };
+export default { createProduct, getProducts };
