@@ -7,11 +7,31 @@ const router = express.Router();
 
 router.get("/", productControllers.getProducts);
 
+router.get("/brands", productControllers.getBrands);
+
+router.get("/categories", productControllers.getCategories);
+
+router.get("/:id", productControllers.getProductById);
+
 router.post(
   "/",
   auth,
   roleBasedAuth("MERCHANT"),
   productControllers.createProduct,
+);
+
+router.put(
+  "/:id",
+  auth,
+  roleBasedAuth("MERCHANT"),
+  productControllers.updateProduct,
+);
+
+router.delete(
+  "/:id",
+  auth,
+  roleBasedAuth("MERCHANT"),
+  productControllers.deleteProduct,
 );
 
 export default router;

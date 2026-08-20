@@ -1,17 +1,97 @@
+import mongoose from "mongoose";
 import Product from "../models/Product.js";
 
-const getProducts = async () => {
-  return await Product.find();
+const getProducts = async (query) => {
+  const limit = query?.limit;
+  const sort = query?.sort ? JSON.parse(query.sort) : null;
+  const offset = query?.offset;
+
+  //filters
+  const filters = {};
+
+  if (query?.category) filters.category = query?.category;
+  if (query?.createdBy) filters.createdBy = query?.createdBy;
+  if (query?.brands) filters.brand = { $in: query?.brands.split(",") };
+  if (query?.name) filters.name = { $regex: query?.name, $options: "i" }; // case-insensitive
+  if (query?.min) filters.price = { $gte: query?.min };
+  if (query?.max) filters.price = { ...filters.price, $lte: query?.max };
+
+  return await Product.find(filters).limit(limit).sort(sort).skip(offset);
 };
 
-const createProduct = async () => {
-  return await Product.create({
-    name: "Iph",
-    brand: "Apple",
-    category: "Mobiles",
-    price: 20000,
-    stock: 20,
-  });
+const getProductById = async (id) => {
+  const product = await Product.findById(id);
+
+  if (!product) {
+    throw {
+      statusCode: 404,
+      message: "Product not found.",
+    };
+  }
+
+  return product;
 };
 
-export default { createProduct, getProducts };
+const createProduct = async (data, userId) => {
+  return await Product.create({ ...data, createdBy: userId });
+};
+
+const updateProduct = async (id, data, userId) => {
+  const product = await Product.findById(id);
+
+  if (!product) {
+    throw {
+      statusCode: 404,
+      message: "Product not found.",
+    };
+  }
+
+  if (product.createdBy.toString() !== userId) {
+    throw {
+      statusCode: 403,
+      message: "Access denied.",
+    };
+  }
+
+  return await Product.findByIdAndUpdate(id, data, { new: true });
+};
+
+const deleteProduct = async (id, userId) => {
+  const product = await Product.findById(id);
+
+  if (!product) {
+    throw {
+      statusCode: 404,
+      message: "Product not found.",
+    };
+  }
+
+  if (product.createdBy.toString() !== userId) {
+    throw {
+      statusCode: 403,
+      message: "Access denied.",
+    };
+  }
+
+  await Product.findByIdAndDelete(id);
+
+  return { message: "Product deleted successfully." };
+};
+
+const getBrands = async () => {
+  return await Product.distinct("brand");
+};
+
+const getCategories = async () => {
+  return await Product.distinct("category");
+};
+
+export default {
+  createProduct,
+  getProducts,
+  getProductById,
+  updateProduct,
+  getBrands,
+  deleteProduct,
+  getCategories,
+};

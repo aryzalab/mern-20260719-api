@@ -29,6 +29,11 @@ const productSchema = new mongoose.Schema({
   },
   description: String,
   imageUrls: [String],
+  createdBy: {
+    type: mongoose.Schema.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
 export default mongoose.model("Product", productSchema);
