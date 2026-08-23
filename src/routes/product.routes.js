@@ -2,6 +2,8 @@ import express from "express";
 import productControllers from "../controllers/product.controllers.js";
 import auth from "../middlewares/auth.js";
 import roleBasedAuth from "../middlewares/roleBasedAuth.js";
+import validate from "../middlewares/validator.js";
+import { productSchema } from "../libs/schemas/product.schema.js";
 
 const router = express.Router();
 
@@ -17,6 +19,7 @@ router.post(
   "/",
   auth,
   roleBasedAuth("MERCHANT"),
+  validate(productSchema),
   productControllers.createProduct,
 );
 

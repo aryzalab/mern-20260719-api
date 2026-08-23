@@ -1,4 +1,11 @@
 import mongoose from "mongoose";
+import { emailRegex } from "../constants/regex.js";
+import {
+  ROLE_ADMIN,
+  ROLE_CUSTOMER,
+  ROLE_MERCHANT,
+  ROLE_SUPER_ADMIN,
+} from "../constants/roles.js";
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -16,8 +23,6 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     validate: {
       validator: (value) => {
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
         return emailRegex.test(value);
       },
       message: "Invalid email address.",
@@ -29,8 +34,8 @@ const userSchema = new mongoose.Schema({
   },
   roles: {
     type: [String],
-    default: ["CUSTOMER"],
-    enum: ["CUSTOMER", "MERCHANT", "ADMIN", "SUPER_ADMIN"],
+    default: [ROLE_CUSTOMER],
+    enum: [ROLE_CUSTOMER, ROLE_ADMIN, ROLE_MERCHANT, ROLE_SUPER_ADMIN],
   },
   phone: {
     type: String,
@@ -56,6 +61,10 @@ const userSchema = new mongoose.Schema({
       type: String,
       default: "Nepal",
     },
+  },
+  isActive: {
+    type: Boolean,
+    default: true,
   },
 });
 
