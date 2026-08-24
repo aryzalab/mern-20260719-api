@@ -1,9 +1,11 @@
 import productServices from "../services/product.services.js";
+import uploadFiles from "../utils/fileUploader.js";
 
 const createProduct = async (req, res) => {
   try {
     const createdProduct = await productServices.createProduct(
       req.body,
+      req.files,
       req.user._id,
     );
 

@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Product from "../models/Product.js";
+import uploadFiles from "../utils/fileUploader.js";
 
 const getProducts = async (query) => {
   const limit = query?.limit;
@@ -32,8 +33,14 @@ const getProductById = async (id) => {
   return product;
 };
 
-const createProduct = async (data, userId) => {
-  return await Product.create({ ...data, createdBy: userId });
+const createProduct = async (data, files, userId) => {
+  const uploadedFiles = await uploadFiles(files);
+
+  return await Product.create({
+    ...data,
+    createdBy: userId,
+    imageUrls: uploadedFiles.map((item) => item.url),
+  });
 };
 
 const updateProduct = async (id, data, userId) => {

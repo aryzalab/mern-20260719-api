@@ -8,14 +8,11 @@ const productSchema = z.object({
   brand: z.string().trim().optional(),
   category: z.string({ error: "Category is required." }).trim(),
   price: z
-    .number({
-      error: (data) =>
-        data.input ? "Price must be number." : "Price is required.",
-    })
+    .string()
     .min(1, { error: "Price must be greater than 0." })
     .max(9999999),
   stock: z
-    .number()
+    .string()
     .min(1, { error: "Stock must be greater than 0." })
     .optional(),
   description: z.string().trim().optional(),

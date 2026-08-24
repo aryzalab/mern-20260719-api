@@ -254,7 +254,23 @@ Server -------> Response -------> Browser
 - 500 Internal server error
 - 504 Timeout
 
+## File upload to Cloudinary
+
+- Files are stored in bucket
+- Storage: Cloudinary (cloud bucket to store assets/media files)
+- Input type: multipart/form-data
+- Multipart/form-data handler: multer
+
+### File upload process
+
+1. When a file (with or without addition data) is sent through frontend/postman as multipart/form-data, multer handles it
+2. Multer temporarily stores the file in local folder or in RAM
+3. Upload the temp file to cloudinary
+4. After successful upload, cloudinary provides a public url
+5. Store this public url in the database
+6. Remove the temp file if necessary
+
 =======================================
 
 - Postman
-- data validation with zod
+- File update
