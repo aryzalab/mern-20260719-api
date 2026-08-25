@@ -202,16 +202,19 @@ snake_case
 ## Storage
 
 1. Cookie storage
+
 - Size: 4KB
 - Storage: Browser & Server
 - Expiry: Cookie expiry
 
 2. Session storage
+
 - Size: 5MB
 - Storage: Browser
 - Expiry: On tab close
 
 3. Local storage
+
 - Size: 5MB
 - Storage: Browser
 - Expiry: Never (Permanent)
@@ -237,12 +240,14 @@ Server -------> Response -------> Browser
 ## HTTP Status Codes
 
 1. 2xx (Success)
+
 - 200 OK
 - 201 Create
 
 2. 3xx (Redirection)
 
 3. 4xx (Client Error)
+
 - 400 Bad request
 - 401 Unauthorized
 - 403 Forbidden
@@ -251,6 +256,7 @@ Server -------> Response -------> Browser
 - 422 Unproccessable Entity
 
 4. 5xx (Server Error)
+
 - 500 Internal server error
 - 504 Timeout
 
@@ -272,5 +278,19 @@ Server -------> Response -------> Browser
 
 =======================================
 
-- Postman
-- File update
+- Order management
+- Email
+- Reset password
+- User management
+- AI integration
+- Deployment
+- Template engine
+
+=============
+
+### During react session
+
+- Payment (Khalti, Stripe)
+- CORS
+- API Integration
+- SaaS for Merchant

@@ -61,6 +61,7 @@ const updateProduct = async (req, res) => {
       req.params.id,
       req.body,
       req.user._id,
+      req.files,
     );
 
     res.json(product);

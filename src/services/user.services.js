@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import uploadFiles from "../utils/fileUploader.js";
 
 const getUsers = async () => {
   const users = await User.find();
@@ -24,8 +25,28 @@ const createUser = async () => {
   });
 };
 
+const updateUser = async (id, data) => {
+  return await User.findByIdAndUpdate(id, data);
+};
+
 const deleteUser = async (id) => {
   await User.findByIdAndDelete(id);
 };
 
-export default { getUserById, getUsers, createUser, deleteUser };
+const updateProfileImage = async (id, file) => {
+  const uploadedFile = await uploadFiles([file]);
+
+  return User.findByIdAndUpdate(
+    id,
+    { profileImageUrl: uploadedFile[0].url },
+    { new: true },
+  );
+};
+
+export default {
+  getUserById,
+  getUsers,
+  createUser,
+  deleteUser,
+  updateProfileImage,
+};

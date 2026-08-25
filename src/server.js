@@ -26,20 +26,17 @@ connectDB();
 
 connectCloudinary();
 
-app.get("/", (request, response) => {
-  response.send("Home page");
-});
-
-app.get("/about", (req, res) => {
-  res.send("<h1>About page</h1>");
-});
-
-app.get("/contact", (req, res) => {
-  res.send("<h1>Welcome to Contact page</h1>");
+app.get("/", (req, res) => {
+  res.json({
+    status: "OK",
+    name: "mern-20260719-api",
+    version: "0.1.0",
+    port: config.port,
+  });
 });
 
 app.use("/api/auth", authRoutes);
-app.use("/api/users", userRoutes);
+app.use("/api/users", upload.single("image"), userRoutes);
 app.use("/api/products", upload.array("images", 5), productRoutes);
 
 app.listen(config.port, () => {

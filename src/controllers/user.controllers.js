@@ -28,6 +28,18 @@ const createUser = async (req, res) => {
   }
 };
 
+const updateUser = async (req, res) => {
+  const id = req.params.userId;
+
+  try {
+    const data = await userServices.updateUser(id, req.body);
+
+    res.json(data);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 const deleteUser = async (req, res) => {
   const id = req.params.userId;
 
@@ -42,4 +54,21 @@ const deleteUser = async (req, res) => {
   }
 };
 
-export default { getUsers, getUserById, createUser, deleteUser };
+const updateProfileImage = async (req, res) => {
+  try {
+    const data = await userServices.updateProfileImage(req.user._id, req.file);
+
+    res.json(data);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export default {
+  getUsers,
+  getUserById,
+  createUser,
+  deleteUser,
+  updateProfileImage,
+  updateUser,
+};
