@@ -278,7 +278,6 @@ Server -------> Response -------> Browser
 
 =======================================
 
-- Order management
 - Email
 - Reset password
 - User management
@@ -290,7 +289,7 @@ Server -------> Response -------> Browser
 
 ### During react session
 
-- Payment (Khalti, Stripe)
+- Payment (Khalti, Stripe, COD)
 - CORS
 - API Integration
 - SaaS for Merchant

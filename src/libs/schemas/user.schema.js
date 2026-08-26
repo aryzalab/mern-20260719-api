@@ -44,4 +44,4 @@ const userSchema = z.object({
   isActive: z.boolean().optional(),
 });
 
-export { userSchema };
+export { userSchema, addressSchema };

@@ -6,6 +6,7 @@ import config from "./config/config.js";
 import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import productRoutes from "./routes/product.routes.js";
+import orderRoutes from "./routes/order.routes.js";
 import connectDB from "./config/database.js";
 import logger from "./middlewares/logger.js";
 import connectCloudinary from "./config/cloudinary.js";
@@ -38,6 +39,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/users", upload.single("image"), userRoutes);
 app.use("/api/products", upload.array("images", 5), productRoutes);
+app.use("/api/orders", orderRoutes);
 
 app.listen(config.port, () => {
   console.log(`Server running at port ${config.port}...`);
