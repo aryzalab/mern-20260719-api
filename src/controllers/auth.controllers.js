@@ -40,4 +40,24 @@ const logout = (req, res) => {
   res.json({ message: "Logout succcessful" });
 };
 
-export default { login, register, logout };
+const forgotPassword = async (req, res) => {
+  try {
+    const data = await authServices.forgotPassword(req.body);
+
+    res.json(data);
+  } catch (error) {
+    res.status(error.statusCode || 400).json({ message: error.message });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  try {
+    const data = await authServices.resetPassword(req.body);
+
+    res.json(data);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export default { login, register, logout, forgotPassword, resetPassword };

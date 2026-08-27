@@ -11,4 +11,22 @@ const loginSchema = z.object({
 
 const registerSchema = userSchema;
 
-export { loginSchema, registerSchema };
+const forgotPasswordSchema = z.object({
+  email: z.email({
+    error: (data) =>
+      data.input ? "Invalid email address." : "Email address is required.",
+  }),
+});
+
+const resetPasswordSchema = z.object({
+  password: z.string({ error: "Password is required." }),
+  user: z.string(),
+  token: z.string(),
+});
+
+export {
+  loginSchema,
+  registerSchema,
+  forgotPasswordSchema,
+  resetPasswordSchema,
+};

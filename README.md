@@ -276,10 +276,28 @@ Server -------> Response -------> Browser
 5. Store this public url in the database
 6. Remove the temp file if necessary
 
+- Email (SMTP) (Resend)
+
+## Reset Password
+
+### Forgot password step
+
+1. User requests for forgot password
+2. User inputs email address
+3. Using that email address, the system should check if email is valid, registered to the system, create reset password link and send the email
+4. User receives the reset password link in that email.
+
+### Reset password step
+
+1. User clicks the reset password link
+2. The link contains reset-password route with token
+3. User inputs new password
+4. Sends the request for reset password with the new password and token
+5. The system verifies the user and token
+6. Update the password
+
 =======================================
 
-- Email
-- Reset password
 - User management
 - AI integration
 - Deployment

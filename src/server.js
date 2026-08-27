@@ -10,6 +10,7 @@ import orderRoutes from "./routes/order.routes.js";
 import connectDB from "./config/database.js";
 import logger from "./middlewares/logger.js";
 import connectCloudinary from "./config/cloudinary.js";
+import sendEmail from "./utils/email.js";
 
 const app = express();
 
@@ -40,6 +41,21 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", upload.single("image"), userRoutes);
 app.use("/api/products", upload.array("images", 5), productRoutes);
 app.use("/api/orders", orderRoutes);
+
+app.post("/send-email", async (req, res) => {
+  try {
+    await sendEmail({
+      from: "onboarding@resend.dev",
+      to: "aryzalab@gmail.com",
+      subject: "Test email",
+      html: "<h1 style='color:red'>Hello from test email</h1>",
+    });
+
+    res.send("Email sent successfully.");
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 app.listen(config.port, () => {
   console.log(`Server running at port ${config.port}...`);
