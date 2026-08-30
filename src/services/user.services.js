@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import uploadFiles from "../utils/fileUploader.js";
+import bcrypt from "bcrypt";
 
 const getUsers = async () => {
   const users = await User.find();
@@ -10,23 +11,63 @@ const getUsers = async () => {
 const getUserById = async (id) => {
   const user = await User.findById(id);
 
-  return user;
+  return {
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+    address: user.address,
+    roles: user.roles,
+    isActive: user.isActive,
+    createdAt: user.createdAt,
+    phone: user.phone,
+  };
 };
 
-const createUser = async () => {
-  return await User.create({
-    name: "Rajesh",
-    email: "rajesh1@gmail.com",
-    password: "123456",
-    phone: "9876543210",
-    address: {
-      city: "Dharan",
-    },
-  });
+const createUser = async (data) => {
+  return await User.create(data);
 };
 
 const updateUser = async (id, data) => {
-  return await User.findByIdAndUpdate(id, data);
+  return await User.findByIdAndUpdate(id, data, { returnDocument: "after" });
+};
+
+const updatePassword = async (id, data) => {
+  if (!data || !data.password) {
+    throw {
+      message: "Password is required.",
+    };
+  }
+
+  const hashedPassword = await bcrypt.hash(data.password, 10);
+
+  return await User.findByIdAndUpdate(
+    id,
+    { password: hashedPassword },
+    { returnDocument: "after" },
+  );
+};
+
+const updateAuthUserPassword = async (id, data) => {
+  const user = await User.findById(id);
+
+  const isPasswordMatch = await bcrypt.compare(
+    data.currentPassword,
+    user.password,
+  );
+
+  if (!isPasswordMatch) {
+    throw {
+      message: "Incorrect password.",
+    };
+  }
+
+  const hashedPassword = await bcrypt.hash(data.newPassword, 10);
+
+  return await User.findByIdAndUpdate(
+    id,
+    { password: hashedPassword },
+    { returnDocument: "after" },
+  );
 };
 
 const deleteUser = async (id) => {
@@ -39,14 +80,17 @@ const updateProfileImage = async (id, file) => {
   return User.findByIdAndUpdate(
     id,
     { profileImageUrl: uploadedFile[0].url },
-    { new: true },
+    { returnDocument: "after" },
   );
 };
 
 export default {
   getUserById,
   getUsers,
+  updateAuthUserPassword,
   createUser,
   deleteUser,
+  updateUser,
+  updatePassword,
   updateProfileImage,
 };

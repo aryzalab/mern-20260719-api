@@ -68,7 +68,7 @@ const updateProduct = async (id, data, userId, files) => {
     updateData.imageUrls = uploadedFiles.map((item) => item.url);
   }
 
-  return await Product.findByIdAndUpdate(id, updateData, { new: true });
+  return await Product.findByIdAndUpdate(id, updateData, { returnDocument: "after" });
 };
 
 const deleteProduct = async (id, userId) => {

@@ -298,7 +298,6 @@ Server -------> Response -------> Browser
 
 =======================================
 
-- User management
 - AI integration
 - Deployment
 - Template engine

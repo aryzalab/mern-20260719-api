@@ -53,7 +53,7 @@ const cancelOrder = async (id, user) => {
   return await Order.findByIdAndUpdate(
     id,
     { status: ORDER_STATUS_CANCELLED },
-    { new: true },
+    { returnDocument: "after" },
   );
 };
 
@@ -71,7 +71,7 @@ const confirmOrder = async (id, user) => {
   return await Order.findByIdAndUpdate(
     id,
     { status: ORDER_STATUS_CONFIRMED },
-    { new: true },
+    { returnDocument: "after" },
   );
 };
 
@@ -96,7 +96,7 @@ const updateOrderStatus = async (id, data) => {
   return await Order.findByIdAndUpdate(
     id,
     { status: data.status },
-    { new: true },
+    { returnDocument: "after" },
   );
 };
 

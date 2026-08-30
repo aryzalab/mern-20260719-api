@@ -44,4 +44,18 @@ const userSchema = z.object({
   isActive: z.boolean().optional(),
 });
 
-export { userSchema, addressSchema };
+const updatePasswordSchema = z.object({
+  currentPassword: z.string(),
+  newPassword: z
+    .string({ error: "Password is required." })
+    .trim()
+    .check(
+      z.maxLength(100),
+      z.regex(passwordRegex, {
+        error:
+          "Password must contain uppercase, lowercase, number and special characters. Length must be greater than 6.",
+      }),
+    ),
+});
+
+export { userSchema, addressSchema, updatePasswordSchema };

@@ -6,6 +6,16 @@ const getUsers = async (req, res) => {
   res.json(users);
 };
 
+const getAuthUser = async (req, res) => {
+  const user = await userServices.getUserById(req.user._id);
+
+  if (!user) {
+    return res.send("User not found.");
+  }
+
+  res.json(user);
+};
+
 const getUserById = async (req, res) => {
   const id = req.params.userId;
 
@@ -20,7 +30,7 @@ const getUserById = async (req, res) => {
 
 const createUser = async (req, res) => {
   try {
-    const createdUser = await userServices.createUser();
+    const createdUser = await userServices.createUser(req.body);
 
     res.json(createdUser);
   } catch (error) {
@@ -30,9 +40,61 @@ const createUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   const id = req.params.userId;
+  const input = req.body;
 
   try {
-    const data = await userServices.updateUser(id, req.body);
+    const data = await userServices.updateUser(id, {
+      name: input.name,
+      phone: input.phone,
+      address: input.address,
+      email: input.email,
+      roles: input.roles,
+      isActive: input.isActive,
+    });
+
+    res.json(data);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+const updateAuthUser = async (req, res) => {
+  const id = req.user._id;
+  const input = req.body;
+
+  try {
+    const data = await userServices.updateUser(id, {
+      name: input.name,
+      phone: input.phone,
+      address: input.address,
+      email: input.email,
+    });
+
+    res.json(data);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+const updatePassword = async (req, res) => {
+  const id = req.params.userId;
+  const input = req.body;
+
+  try {
+    const data = await userServices.updatePassword(id, req.body);
+
+    res.json(data);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+const updateAuthUserPassword = async (req, res) => {
+  const id = req.user._id;
+  const input = req.body;
+
+  try {
+    const data = await userServices.updateAuthUserPassword(id, req.body);
 
     res.json(data);
   } catch (error) {
@@ -47,7 +109,7 @@ const deleteUser = async (req, res) => {
     await userServices.deleteUser(id);
 
     res.json({
-      message: `User deleted. id: ${id}`,
+      message: `User deleted for id: ${id}`,
     });
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -66,9 +128,13 @@ const updateProfileImage = async (req, res) => {
 
 export default {
   getUsers,
+  getAuthUser,
   getUserById,
+  updatePassword,
   createUser,
+  updateAuthUser,
   deleteUser,
   updateProfileImage,
   updateUser,
+  updateAuthUserPassword,
 };

@@ -15,6 +15,13 @@ const login = async (input) => {
     };
   }
 
+  if (!user.isActive) {
+    throw {
+      statusCode: 403,
+      message: "User disabled.",
+    };
+  }
+
   const isPasswordMatch = await bcrypt.compare(input.password, user.password);
 
   if (!isPasswordMatch) {
@@ -30,6 +37,7 @@ const login = async (input) => {
     phone: user.phone,
     email: user.email,
     roles: user.roles,
+    isActive: user.isActive,
   };
 };
 
