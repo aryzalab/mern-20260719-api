@@ -1,0 +1,49 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        font-size: 1.5rem;
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid;
+        padding: 0.5rem;
+        border-collapse: collapse;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Products</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Brand</th>
+          <th>Category</th>
+          <th>Price</th>
+          <th>Stock</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each products}}
+          <tr>
+            <td>
+              <a href="http://localhost:8000/products/{{_id}}">{{_id}}</a>
+            </td>
+            <td>{{name}}</td>
+            <td>{{brand}}</td>
+            <td>{{category}}</td>
+            <td>{{price}}</td>
+            <td>{{stock}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </body>
+</html>

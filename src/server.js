@@ -12,6 +12,7 @@ import logger from "./middlewares/logger.js";
 import connectCloudinary from "./config/cloudinary.js";
 import sendEmail from "./utils/email.js";
 import promptAI from "./utils/prompt.js";
+import productServices from "./services/product.services.js";
 
 const app = express();
 
@@ -25,6 +26,8 @@ app.use(express.json());
 
 app.use(logger);
 
+app.set("view engine", "hbs");
+
 connectDB();
 
 connectCloudinary();
@@ -36,6 +39,22 @@ app.get("/", (req, res) => {
     version: "0.1.0",
     port: config.port,
   });
+});
+
+app.get("/home", (req, res) => {
+  res.render("index.hbs", { name: "Ram" });
+});
+
+app.get("/products", async (req, res) => {
+  const products = await productServices.getProducts();
+
+  res.render("products.hbs", { products });
+});
+
+app.get("/products/:id", async (req, res) => {
+  const product = await productServices.getProductById(req.params.id);
+
+  res.render("product.hbs", { product });
 });
 
 app.use("/api/auth", authRoutes);

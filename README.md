@@ -296,10 +296,11 @@ Server -------> Response -------> Browser
 5. The system verifies the user and token
 6. Update the password
 
-=======================================
+## Template engine
 
-- Deployment
-- Template engine
+- Used to build UI from Node.js and express
+- Building templates for email or pdf
+- e.g: handlebars, ejs, njk
 
 ======================================
 
