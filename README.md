@@ -298,11 +298,10 @@ Server -------> Response -------> Browser
 
 =======================================
 
-- AI integration
 - Deployment
 - Template engine
 
-=============
+======================================
 
 ### During react session
 

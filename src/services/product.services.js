@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import Product from "../models/Product.js";
 import uploadFiles from "../utils/fileUploader.js";
+import promptAI from "../utils/prompt.js";
+import formatProductPrompt from "../helpers/productPrompt.js";
 
 const getProducts = async (query) => {
   const limit = query?.limit;
@@ -36,10 +38,19 @@ const getProductById = async (id) => {
 const createProduct = async (data, files, userId) => {
   const uploadedFiles = await uploadFiles(files);
 
+  let description = data?.description;
+
+  if (!description) {
+    const descriptionPrompt = formatProductPrompt(data);
+
+    description = await promptAI(descriptionPrompt);
+  }
+
   return await Product.create({
     ...data,
     createdBy: userId,
     imageUrls: uploadedFiles.map((item) => item.url),
+    description,
   });
 };
 
@@ -68,7 +79,15 @@ const updateProduct = async (id, data, userId, files) => {
     updateData.imageUrls = uploadedFiles.map((item) => item.url);
   }
 
-  return await Product.findByIdAndUpdate(id, updateData, { returnDocument: "after" });
+  if (!data.description) {
+    const descriptionPrompt = formatProductPrompt(data);
+
+    updateData.description = await promptAI(descriptionPrompt);
+  }
+
+  return await Product.findByIdAndUpdate(id, updateData, {
+    returnDocument: "after",
+  });
 };
 
 const deleteProduct = async (id, userId) => {

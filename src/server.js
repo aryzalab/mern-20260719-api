@@ -11,6 +11,7 @@ import connectDB from "./config/database.js";
 import logger from "./middlewares/logger.js";
 import connectCloudinary from "./config/cloudinary.js";
 import sendEmail from "./utils/email.js";
+import promptAI from "./utils/prompt.js";
 
 const app = express();
 

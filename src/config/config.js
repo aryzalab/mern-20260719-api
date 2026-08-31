@@ -13,6 +13,7 @@ const config = {
     apiSecret: process.env.CLOUDINARY_API_SECRET || "",
   },
   resendApiKey: process.env.RESEND_API_KEY || "",
+  geminiApiKey: process.env.GEMINI_API_KEY || "",
 };
 
 export default config;
