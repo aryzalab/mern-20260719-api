@@ -48,7 +48,7 @@ app.get("/home", (req, res) => {
 app.get("/products", async (req, res) => {
   const products = await productServices.getProducts();
 
-  res.render("products.hbs", { products });
+  res.render("products.hbs", { products, apiUrl: config.apiUrl });
 });
 
 app.get("/products/:id", async (req, res) => {
