@@ -1,6 +1,7 @@
 import express from "express";
 import fs from "fs/promises";
 import multer from "multer";
+import cors from "cors";
 
 import config from "./config/config.js";
 import authRoutes from "./routes/auth.routes.js";
@@ -15,6 +16,8 @@ import promptAI from "./utils/prompt.js";
 import productServices from "./services/product.services.js";
 
 const app = express();
+
+app.use(cors());
 
 const upload = multer({
   storage: multer.memoryStorage(),
