@@ -11,7 +11,7 @@ const login = async (req, res) => {
       maxAge: 86400 * 1000, // 1 day in milliseconds
     });
 
-    res.json(data);
+    res.json({ ...data, token });
   } catch (error) {
     console.log(error);
     res.status(error.statusCode || 400).json({ message: error.message });
@@ -28,7 +28,7 @@ const register = async (req, res) => {
       maxAge: 86400 * 1000, // 1 day in milliseconds
     });
 
-    res.json(data);
+    res.json({ ...data, token });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
