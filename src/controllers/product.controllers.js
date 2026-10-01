@@ -19,7 +19,19 @@ const getProducts = async (req, res) => {
   try {
     const products = await productServices.getProducts(req.query);
 
-    res.json(products);
+    res.json(
+      products.map((product) => ({
+        _id: product._id,
+        name: product.name,
+        price: product.price,
+        imageUrls: product.imageUrls,
+        category: product.category,
+        brand: product.brand,
+        createdBy: product.createdBy,
+        stock: product.stock,
+        createdAt: product.createdAt,
+      })),
+    );
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
