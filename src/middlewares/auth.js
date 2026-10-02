@@ -2,9 +2,17 @@ import jwt from "../utils/jwt.js";
 
 // Verify user logged in state (authentication)
 const auth = (req, res, next) => {
-  const cookie = req.headers.cookie;
+  const authHeader = req.headers.authorization;
 
-  const token = cookie?.split("=")[1];
+  let token;
+
+  if (authHeader && authHeader.startsWith("Bearer ")) {
+    token = authHeader.split(" ")[1];
+  } else {
+    const cookie = req.headers.cookie;
+
+    token = cookie?.split("=")[1];
+  }
 
   if (!token) {
     res.status(401).json({ message: "Unauthorized." });
