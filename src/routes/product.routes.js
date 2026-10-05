@@ -27,6 +27,7 @@ router.put(
   "/:id",
   auth,
   roleBasedAuth("MERCHANT"),
+  validate(productSchema),
   productControllers.updateProduct,
 );
 
