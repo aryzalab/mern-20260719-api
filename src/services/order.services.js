@@ -10,7 +10,8 @@ import crypto from "crypto";
 const getAllOrders = async () => {
   return await Order.find()
     .populate("user", "name email phone")
-    .populate("orderItems.product", "name brand category price imageUrls");
+    .populate("orderItems.product", "name brand category price imageUrls")
+    .sort({ createdAt: -1 });
 };
 
 const getAllOrdersByUser = async (userId) => {
@@ -31,7 +32,10 @@ const getOrderById = async (id, user) => {
     };
   }
 
-  if (order.user.toString() != user._id && !user.roles.includes(ROLE_ADMIN)) {
+  if (
+    order.user._id.toString() != user._id &&
+    !user.roles.includes(ROLE_ADMIN)
+  ) {
     throw {
       statusCode: 403,
       message: "Access denied.",
