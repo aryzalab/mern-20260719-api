@@ -49,4 +49,18 @@ router.delete(
   orderControllers.deleteOrder,
 );
 
+router.put(
+  "/:id/payment/cash",
+  auth,
+  roleBasedAuth(ROLE_CUSTOMER),
+  orderControllers.orderPaymentViaCash,
+);
+
+router.put(
+  "/:id/payment/khalti",
+  auth,
+  roleBasedAuth(ROLE_CUSTOMER),
+  orderControllers.orderPaymentViaKhalti,
+);
+
 export default router;

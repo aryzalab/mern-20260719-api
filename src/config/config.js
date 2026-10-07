@@ -15,6 +15,11 @@ const config = {
   },
   resendApiKey: process.env.RESEND_API_KEY || "",
   geminiApiKey: process.env.GEMINI_API_KEY || "",
+  khalti: {
+    apiUrl: process.env.KHALTI_API_URL || "",
+    secretKey: process.env.KHALTI_SECRET_KEY || "",
+    returnUrl: process.env.KHALTI_RETURN_URL || "",
+  },
 };
 
 export default config;

@@ -64,6 +64,10 @@ const orderSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  payment: {
+    type: mongoose.Schema.ObjectId,
+    ref: "Payment",
+  },
 });
 
 export default mongoose.model("Order", orderSchema);

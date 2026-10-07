@@ -5,7 +5,9 @@ import {
 } from "../constants/orderStatuses.js";
 import { ROLE_ADMIN } from "../constants/roles.js";
 import Order from "../models/Order.js";
+import Payment from "../models/Payment.js";
 import crypto from "crypto";
+import { payViaKhalti } from "../utils/payment.js";
 
 const getAllOrders = async () => {
   return await Order.find()
@@ -23,7 +25,8 @@ const getAllOrdersByUser = async (userId) => {
 const getOrderById = async (id, user) => {
   const order = await Order.findById(id)
     .populate("user", "name email phone")
-    .populate("orderItems.product", "name brand category price imageUrls");
+    .populate("orderItems.product", "name brand category price imageUrls")
+    .populate("payment", "transactionId amount method status");
 
   if (!order) {
     throw {
@@ -61,7 +64,7 @@ const cancelOrder = async (id, user) => {
   );
 };
 
-const confirmOrder = async (id, user) => {
+const confirmOrder = async (id, status, user) => {
   const order = await getOrderById(id, user);
 
   if (order.status !== ORDER_STATUS_PENDING) {
@@ -71,6 +74,19 @@ const confirmOrder = async (id, user) => {
   }
 
   // payment pending
+  if (status?.toUpperCase() !== "SUCCESS") {
+    await Payment.findByIdAndUpdate(order.payment, {
+      status: "FAILED",
+    });
+
+    throw {
+      message: "Payment failed",
+    };
+  }
+
+  await Payment.findByIdAndUpdate(order.payment, {
+    status: "SUCCESS",
+  });
 
   return await Order.findByIdAndUpdate(
     id,
@@ -110,6 +126,49 @@ const deleteOrder = async (id) => {
   return { message: "Order deleted." };
 };
 
+const orderPaymentViaCash = async (id, user) => {
+  const order = await getOrderById(id, user);
+
+  const orderPayment = await Payment.create({
+    method: "CASH",
+    amount: order.totalPrice,
+  });
+
+  return await Order.findByIdAndUpdate(
+    id,
+    {
+      status: ORDER_STATUS_CONFIRMED,
+      payment: orderPayment._id,
+    },
+    { new: true },
+  );
+};
+
+const orderPaymentViaKhalti = async (id, user) => {
+  const order = await getOrderById(id, user);
+
+  const orderPayment = await Payment.create({
+    method: "ONLINE",
+    amount: order.totalPrice,
+  });
+
+  await Order.findByIdAndUpdate(id, {
+    payment: orderPayment._id,
+  });
+
+  return await payViaKhalti({
+    amount: order.totalPrice,
+    orderNumber: order.orderNumber,
+    orderId: order._id,
+    orderName: order.orderItems[0].product.name,
+    customerInfo: {
+      name: order.user.name,
+      email: order.user.email,
+      phone: order.user.phone,
+    },
+  });
+};
+
 export default {
   getAllOrders,
   getOrderById,
@@ -119,4 +178,6 @@ export default {
   getAllOrdersByUser,
   cancelOrder,
   confirmOrder,
+  orderPaymentViaCash,
+  orderPaymentViaKhalti,
 };
