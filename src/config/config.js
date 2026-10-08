@@ -20,6 +20,7 @@ const config = {
     secretKey: process.env.KHALTI_SECRET_KEY || "",
     returnUrl: process.env.KHALTI_RETURN_URL || "",
   },
+  stripeSecretKey: process.env.STRIPE_SECRET_KEY || "",
 };
 
 export default config;

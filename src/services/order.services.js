@@ -7,17 +7,18 @@ import { ROLE_ADMIN } from "../constants/roles.js";
 import Order from "../models/Order.js";
 import Payment from "../models/Payment.js";
 import crypto from "crypto";
-import { payViaKhalti } from "../utils/payment.js";
+import { payViaKhalti, payViaStripe } from "../utils/payment.js";
 
 const getAllOrders = async () => {
   return await Order.find()
+    .sort({ createdAt: -1 })
     .populate("user", "name email phone")
-    .populate("orderItems.product", "name brand category price imageUrls")
-    .sort({ createdAt: -1 });
+    .populate("orderItems.product", "name brand category price imageUrls");
 };
 
 const getAllOrdersByUser = async (userId) => {
   return await Order.find({ user: userId })
+    .sort({ createdAt: -1 })
     .populate("user", "name email phone")
     .populate("orderItems.product", "name brand category price imageUrls");
 };
@@ -169,6 +170,29 @@ const orderPaymentViaKhalti = async (id, user) => {
   });
 };
 
+const orderPaymentViaStripe = async (id, user) => {
+  const order = await getOrderById(id, user);
+
+  const orderPayment = await Payment.create({
+    method: "CARD",
+    amount: order.totalPrice,
+  });
+
+  await Order.findByIdAndUpdate(id, {
+    payment: orderPayment._id,
+  });
+
+  return await payViaStripe({
+    amount: order.totalPrice,
+    orderId: order.orderNumber,
+    customerInfo: {
+      name: order.user.name,
+      email: order.user.email,
+      phone: order.user.phone,
+    },
+  });
+};
+
 export default {
   getAllOrders,
   getOrderById,
@@ -180,4 +204,5 @@ export default {
   confirmOrder,
   orderPaymentViaCash,
   orderPaymentViaKhalti,
+  orderPaymentViaStripe,
 };

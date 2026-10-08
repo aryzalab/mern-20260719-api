@@ -113,6 +113,19 @@ const orderPaymentViaKhalti = async (req, res) => {
   }
 };
 
+const orderPaymentViaStripe = async (req, res) => {
+  try {
+    const order = await orderServices.orderPaymentViaStripe(
+      req.params.id,
+      req.user,
+    );
+
+    res.json(order);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 export default {
   getAllOrders,
   getOrderById,
@@ -124,4 +137,5 @@ export default {
   confirmOrder,
   orderPaymentViaCash,
   orderPaymentViaKhalti,
+  orderPaymentViaStripe,
 };

@@ -1,5 +1,6 @@
 import axios from "axios";
 import config from "../config/config.js";
+import Stripe from "stripe";
 
 export const payViaKhalti = async (input) => {
   const data = {
@@ -23,4 +24,21 @@ export const payViaKhalti = async (input) => {
     console.log(error.response.data);
     throw error;
   }
+};
+
+export const payViaStripe = async (input) => {
+  const stripe = new Stripe(config.stripeSecretKey);
+
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: Math.ceil(input.amount),
+    currency: input.currency || "npr",
+    metadata: {
+      customer_name: input.customerInfo.name,
+      customer_email: input.customerInfo.email,
+      customer_phone: input.customerInfo.phone,
+      order_id: input.orderNumber,
+    },
+  });
+
+  return paymentIntent;
 };

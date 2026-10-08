@@ -63,4 +63,11 @@ router.put(
   orderControllers.orderPaymentViaKhalti,
 );
 
+router.put(
+  "/:id/payment/stripe",
+  auth,
+  roleBasedAuth(ROLE_CUSTOMER),
+  orderControllers.orderPaymentViaStripe,
+);
+
 export default router;
