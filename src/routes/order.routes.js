@@ -2,7 +2,11 @@ import express from "express";
 import orderControllers from "../controllers/order.controllers.js";
 import auth from "../middlewares/auth.js";
 import roleBasedAuth from "../middlewares/roleBasedAuth.js";
-import { ROLE_ADMIN, ROLE_CUSTOMER } from "../constants/roles.js";
+import {
+  ROLE_ADMIN,
+  ROLE_CUSTOMER,
+  ROLE_MERCHANT,
+} from "../constants/roles.js";
 import validate from "../middlewares/validator.js";
 import {
   orderSchema,
@@ -18,6 +22,13 @@ router.get(
   auth,
   roleBasedAuth(ROLE_CUSTOMER),
   orderControllers.getAllOrdersByUser,
+);
+
+router.get(
+  "/merchants",
+  auth,
+  roleBasedAuth(ROLE_MERCHANT),
+  orderControllers.getOrdersByMerchant,
 );
 
 router.get("/:id", auth, orderControllers.getOrderById);

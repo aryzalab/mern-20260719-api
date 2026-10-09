@@ -20,6 +20,16 @@ const getAllOrdersByUser = async (req, res) => {
   }
 };
 
+const getOrdersByMerchant = async (req, res) => {
+  try {
+    const orders = await orderServices.getOrdersByMerchant(req.user._id);
+
+    res.json(orders);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 const getOrderById = async (req, res) => {
   try {
     const order = await orderServices.getOrderById(req.params.id, req.user);
@@ -138,4 +148,5 @@ export default {
   orderPaymentViaCash,
   orderPaymentViaKhalti,
   orderPaymentViaStripe,
+  getOrdersByMerchant,
 };

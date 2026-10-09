@@ -8,12 +8,62 @@ import Order from "../models/Order.js";
 import Payment from "../models/Payment.js";
 import crypto from "crypto";
 import { payViaKhalti, payViaStripe } from "../utils/payment.js";
+import mongoose from "mongoose";
 
+//admin
 const getAllOrders = async () => {
-  return await Order.find()
-    .sort({ createdAt: -1 })
-    .populate("user", "name email phone")
-    .populate("orderItems.product", "name brand category price imageUrls");
+  return await Order.aggregate([
+    {
+      $lookup: {
+        from: "users",
+        localField: "user",
+        foreignField: "_id",
+        as: "user",
+      },
+    },
+    {
+      $unwind: "$user",
+    },
+    {
+      $lookup: {
+        from: "products",
+        localField: "orderItems.product",
+        foreignField: "_id",
+        as: "orderItems",
+      },
+    },
+    {
+      $match: {},
+    },
+    {
+      $project: {
+        orderNumber: 1,
+        status: 1,
+        shippingAddress: 1,
+        payment: 1,
+        totalPrice: 1,
+        "user._id": 1,
+        "user.name": 1,
+        "user.email": 1,
+        "user.phone": 1,
+        orderItems: {
+          $map: {
+            input: "$orderItems",
+            as: "item",
+            in: {
+              _id: "$$item._id",
+              name: "$$item.name",
+              brand: "$$item.brand",
+              category: "$$item.category",
+              price: "$$item.price",
+              imageUrls: "$$item.imageUrls",
+            },
+          },
+        },
+        createdAt: 1,
+      },
+    },
+  ]);
 };
 
 const getAllOrdersByUser = async (userId) => {
@@ -21,6 +71,63 @@ const getAllOrdersByUser = async (userId) => {
     .sort({ createdAt: -1 })
     .populate("user", "name email phone")
     .populate("orderItems.product", "name brand category price imageUrls");
+};
+
+const getOrdersByMerchant = async (merchantId) => {
+  return await Order.aggregate([
+    {
+      $lookup: {
+        from: "users",
+        localField: "user",
+        foreignField: "_id",
+        as: "user",
+      },
+    },
+    {
+      $unwind: "$user",
+    },
+    {
+      $lookup: {
+        from: "products",
+        localField: "orderItems.product",
+        foreignField: "_id",
+        as: "orderItems",
+      },
+    },
+    {
+      $match: {
+        "orderItems.createdBy": new mongoose.Types.ObjectId(merchantId),
+      },
+    },
+    {
+      $project: {
+        orderNumber: 1,
+        status: 1,
+        shippingAddress: 1,
+        payment: 1,
+        totalPrice: 1,
+        "user._id": 1,
+        "user.name": 1,
+        "user.email": 1,
+        "user.phone": 1,
+        orderItems: {
+          $map: {
+            input: "$orderItems",
+            as: "item",
+            in: {
+              _id: "$$item._id",
+              name: "$$item.name",
+              brand: "$$item.brand",
+              category: "$$item.category",
+              price: "$$item.price",
+              imageUrls: "$$item.imageUrls",
+            },
+          },
+        },
+        createdAt: 1,
+      },
+    },
+  ]);
 };
 
 const getOrderById = async (id, user) => {
@@ -205,4 +312,5 @@ export default {
   orderPaymentViaCash,
   orderPaymentViaKhalti,
   orderPaymentViaStripe,
+  getOrdersByMerchant,
 };
