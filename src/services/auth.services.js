@@ -38,6 +38,7 @@ const login = async (input) => {
     email: user.email,
     roles: user.roles,
     isActive: user.isActive,
+    profileImageUrl: user?.profileImageUrl,
   };
 };
 
@@ -59,6 +60,7 @@ const register = async (input) => {
     phone: user.phone,
     email: user.email,
     roles: user.roles,
+    profileImageUrl: user?.profileImageUrl,
   };
 };
 
@@ -116,7 +118,7 @@ const forgotPassword = async (data) => {
 const resetPassword = async (input) => {
   const data = await ResetPassword.findOne({
     user: input.user,
-    expiresAt: { $gt: Date.now() },
+    expiresAt: { $gt: new Date(Date.now()).toISOString() },
   }).sort({ createdAt: -1 });
 
   if (!data || data.token != input.token) {

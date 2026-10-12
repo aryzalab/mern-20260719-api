@@ -66,8 +66,12 @@ const getAllOrders = async () => {
   ]);
 };
 
-const getAllOrdersByUser = async (userId) => {
-  return await Order.find({ user: userId })
+const getAllOrdersByUser = async (userId, status) => {
+  let filter = { user: userId };
+
+  if (status) filter.status = status;
+
+  return await Order.find(filter)
     .sort({ createdAt: -1 })
     .populate("user", "name email phone")
     .populate("orderItems.product", "name brand category price imageUrls");

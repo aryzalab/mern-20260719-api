@@ -12,7 +12,10 @@ const getAllOrders = async (req, res) => {
 
 const getAllOrdersByUser = async (req, res) => {
   try {
-    const orders = await orderServices.getAllOrdersByUser(req.user._id);
+    const orders = await orderServices.getAllOrdersByUser(
+      req.user._id,
+      req.query?.status,
+    );
 
     res.json(orders);
   } catch (error) {

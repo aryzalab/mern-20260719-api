@@ -9,7 +9,7 @@ import {
 const addressSchema = z.object(
   {
     city: z.string({ error: "City is required." }).trim(),
-    provice: z.string().trim().optional(),
+    province: z.string().trim().optional(),
     street: z.string().trim().optional(),
     country: z.string().trim().optional(),
   },
@@ -42,6 +42,7 @@ const userSchema = z.object({
   phone: z.string({ error: "Phone number is required." }).trim(),
   address: addressSchema,
   isActive: z.boolean().optional(),
+  profileImageUrl: z.string().optional(),
 });
 
 const updatePasswordSchema = z.object({
