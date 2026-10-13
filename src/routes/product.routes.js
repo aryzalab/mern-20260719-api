@@ -13,6 +13,8 @@ router.get("/brands", productControllers.getBrands);
 
 router.get("/categories", productControllers.getCategories);
 
+router.get("/total-count", productControllers.getTotalCount);
+
 router.get("/:id", productControllers.getProductById);
 
 router.post(

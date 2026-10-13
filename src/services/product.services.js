@@ -120,6 +120,10 @@ const getCategories = async () => {
   return await Product.distinct("category");
 };
 
+const getTotalCount = async () => {
+  return await Product.countDocuments();
+};
+
 export default {
   createProduct,
   getProducts,
@@ -128,4 +132,5 @@ export default {
   getBrands,
   deleteProduct,
   getCategories,
+  getTotalCount,
 };

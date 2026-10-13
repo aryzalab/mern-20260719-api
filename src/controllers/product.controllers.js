@@ -57,6 +57,16 @@ const getCategories = async (req, res) => {
   }
 };
 
+const getTotalCount = async (req, res) => {
+  try {
+    const brands = await productServices.getTotalCount();
+
+    res.json(brands);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 const getProductById = async (req, res) => {
   try {
     const product = await productServices.getProductById(req.params.id);
@@ -102,5 +112,6 @@ export default {
   updateProduct,
   deleteProduct,
   getBrands,
+  getTotalCount,
   getCategories,
 };
